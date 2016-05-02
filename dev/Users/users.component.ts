@@ -1,14 +1,25 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router'
+import 'rxjs/add/operator/map'
+import {UserService} from './user.service'
+import {OnInit} from 'angular2/core'
 
 
 @Component({
-    template: `
-                <h1>Users Page</h1>
+    templateUrl:'dev/users/users.component.html',
 
-    `,
-    directives:[ROUTER_DIRECTIVES]
+    providers: [UserService]
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
 
+
+    users;
+
+    constructor(private _userService:UserService) {
+    }
+
+    ngOnInit() {
+
+        this._userService.getUsers()
+            .subscribe(users => this.users = users);
+    }
 }
